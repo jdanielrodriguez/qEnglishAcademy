@@ -23,7 +23,7 @@ services:
         volumes:
             - ./public:/usr/src/app/public
         ports:
-            - 8000:80
+            - 80:80
         depends_on:
             - blog_app
         environment:
@@ -47,6 +47,19 @@ services:
             MYSQL_PASSWORD: root
         networks:
             - app_network
+    phpmyadmin:
+        container_name: phpmyadmin
+        image: phpmyadmin
+        restart: always
+        ports:
+        - 8081:80
+        links:
+        - blog_db
+        environment:
+        - PMA_ARBITRARY=1
+        - UPLOAD_LIMIT=3000M
+        networks:
+        - app_network
 
     blog_redis:
         container_name: blog_redis
